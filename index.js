@@ -8,9 +8,6 @@ var config = {
 var framework = new Framework(config);
 framework.start();
 
-var responded = false;
-
 framework.hears('hello', (bot, trigger) => {
     bot.say(`Hello ${trigger.person.displayName}!  Say "new" to start a new game of chess`,);
-    responded = true;
 });
