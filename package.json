@@ -1,0 +1,25 @@
+{
+  "name": "webex-chess-card-sample-workshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CiscoDevNet/webex-chess-card-sample-workshop.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CiscoDevNet/webex-chess-card-sample-workshop/issues"
+  },
+  "homepage": "https://github.com/CiscoDevNet/webex-chess-card-sample-workshop#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "js-chess-engine": "^0.8.0",
+    "webex-node-bot-framework": "^2.3.4"
+  }
+}
