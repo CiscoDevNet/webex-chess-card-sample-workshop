@@ -15,3 +15,7 @@ framework.hears('hello', (bot, trigger) => {
 framework.hears('new', (bot, trigger) => {
     bot.sendCard(chess.start(), "Sorry, it appears your client cannot render adaptive card attachments");
 });
+
+framework.on('attachmentAction', async (bot, trigger) => {
+    console.log(JSON.stringify(trigger,null,4));
+});
