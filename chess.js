@@ -29,3 +29,33 @@ exports.start = function () {
     card.body[4].value = startPosition;
     return card;
 }
+
+exports.move = function (fen, from, to) {
+    let currentBoard = chess.status(fen);
+    let card = chessCardTemplate.template;
+    let statusMessage;
+
+    try {
+        currentBoard = chess.move(currentBoard, from.toUpperCase(), to.toUpperCase());
+        let cpuMove = chess.aiMove(currentBoard, level = 2); //Intermediate
+        [from, to] = Object.entries(cpuMove)[0];
+        currentBoard = chess.move(currentBoard, from, to);
+        statusMessage = `-> Black moves: ${from} ${to}`;
+    }
+    catch (err) {
+        statusMessage = `-> Invalid move: ${from} ${to}`;
+    }
+
+    card.body[0].columns[0].items[0].text = renderBoard(currentBoard);
+    card.body[0].columns[0].items[1].text = statusMessage;
+    card.body[0].columns[1].items[0].columns[1].items[0].text = (currentBoard.turn == 'white') ? 'White' : 'Black';
+    card.body[0].columns[1].items[0].columns[1].items[1].text = currentBoard.check ? '☑' : '☐';
+    card.body[0].columns[1].items[0].columns[1].items[2].text = currentBoard.checkMate ? '☑' : '☐';
+    card.body[0].columns[1].items[2].columns[1].items[0].text = currentBoard.castling.whiteLong ? '☑' : '☐';
+    card.body[0].columns[1].items[2].columns[1].items[1].text = currentBoard.castling.whiteShort ? '☑' : '☐';
+    card.body[0].columns[1].items[2].columns[1].items[2].text = currentBoard.castling.blackLong ? '☑' : '☐';
+    card.body[0].columns[1].items[2].columns[1].items[3].text = currentBoard.castling.blackShort ? '☑' : '☐';
+
+    card.body[4].value = chess.getFen(currentBoard);
+    return card;
+}

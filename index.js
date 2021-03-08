@@ -1,5 +1,6 @@
 var Framework = require('webex-node-bot-framework');
 require('dotenv').config();
+var chess = require('./chess');
 
 var config = {
     token: process.env.WEBEX_ACCESS_TOKEN
@@ -17,5 +18,9 @@ framework.hears('new', (bot, trigger) => {
 });
 
 framework.on('attachmentAction', async (bot, trigger) => {
-    console.log(JSON.stringify(trigger,null,4));
+    let from = trigger.attachmentAction.inputs.moveFrom;
+    let to = trigger.attachmentAction.inputs.moveTo;
+    let currentBoard = trigger.attachmentAction.inputs.currentBoard;
+
+    bot.sendCard(chess.move(currentBoard, from, to), "Sorry, it appears your client cannot render adaptive card attachments");
 });
