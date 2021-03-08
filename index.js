@@ -1,4 +1,5 @@
 var Framework = require('webex-node-bot-framework');
+const fetch = require('node-fetch');
 require('dotenv').config();
 var chess = require('./chess');
 
@@ -22,5 +23,24 @@ framework.on('attachmentAction', async (bot, trigger) => {
     let to = trigger.attachmentAction.inputs.moveTo;
     let currentBoard = trigger.attachmentAction.inputs.currentBoard;
 
-    bot.sendCard(chess.move(currentBoard, from, to), "Sorry, it appears your client cannot render adaptive card attachments");
+    let newMessage = {
+        parentId: trigger.attachmentAction.messageId,
+        roomId: trigger.attachmentAction.roomId,
+        text: "Sorry, it appears your client cannot render adaptive card attachments",
+        attachments: [
+            {
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "content": chess.move(currentBoard, from, to)
+            }
+        ]
+    };
+
+    const response = await fetch(`https://webexapis.com/v1/messages/${trigger.attachmentAction.messageId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.WEBEX_ACCESS_TOKEN}`
+        },
+        body: JSON.stringify(newMessage)
+    });
 });
